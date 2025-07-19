@@ -197,5 +197,3 @@ This improves UX and feels more interactive.
 ```
 
 ---
-
-Let me know if you'd like me to generate a custom `.gitmessage` file or template!

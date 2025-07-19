@@ -3,7 +3,7 @@ import { useState } from "react";
 import UserCard from "./components/UserCard";
 
 function App() {
-  const [state, setState] = useState(true);
+  const [state, setState] = useState(false);
 
   const info = [
     {
@@ -20,7 +20,7 @@ function App() {
     },
   ];
   return (
-    <div>
+    <div className="layer">
       {state ? (
         <div className="container">
           {info.map((card) => {
