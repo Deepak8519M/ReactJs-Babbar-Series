@@ -1,5 +1,3 @@
-Great question! Let's break it down clearly:
-
 ---
 
 ## 🔹 `public/assets` vs `src/assets` in a React project
