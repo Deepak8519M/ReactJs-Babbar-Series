@@ -1,5 +1,3 @@
----
-
 ## 🔹 `public/assets` vs `src/assets` in a React project
 
 ### 🗂️ 1. `public/assets`
