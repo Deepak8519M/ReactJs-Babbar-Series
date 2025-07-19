@@ -21,7 +21,9 @@ function App() {
   ];
   return (
     <div className="layer">
-      <button className="btn">Toggle</button>
+      <button className="btn" onClick={() => setState(!state)}>
+        Toggle
+      </button>
       {state ? (
         <div className="container">
           {info.map((card) => {
