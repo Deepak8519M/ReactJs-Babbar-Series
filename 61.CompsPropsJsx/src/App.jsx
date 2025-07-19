@@ -4,13 +4,28 @@ import UserCard from "./components/UserCard";
 
 function App() {
   const [state, setState] = useState(true);
+
+  const info = [
+    {
+      name: "Deepak",
+      desc: "Hello Myself Deepak iam 20 year old adult",
+    },
+    {
+      name: "Ajay",
+      desc: "Hello Myself Ajay iam 20 year old adult",
+    },
+    {
+      name: "Rahul",
+      desc: "Hello Myself Rahul iam 20 year old adult",
+    },
+  ];
   return (
     <div>
       {state ? (
         <div className="container">
-          <UserCard />
-          <UserCard />
-          <UserCard />
+          {info.map((card) => {
+            return <UserCard name={card.name} desc={card.desc} />;
+          })}
         </div>
       ) : (
         <h1>React Comps</h1>
