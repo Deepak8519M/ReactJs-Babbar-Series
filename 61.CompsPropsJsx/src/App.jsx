@@ -21,7 +21,11 @@ function App() {
   ];
   return (
     <div className="layer">
-      <button className="btn" onClick={() => setState(!state)}>
+      <button
+        className="btn"
+        onClick={() => setState(!state)}
+        onKeyUp={() => setState(!state)}
+      >
         Toggle
       </button>
       {state ? (

@@ -47,10 +47,10 @@ body {
   background: slateblue;
   cursor: pointer;
   color: white;
-  border: 1px solid white;
+  border: 2px solid yellow;
+  outline: none;
   position: absolute;
   top: 10px;
   right: 20px;
   font-size: 20px;
 }
-
