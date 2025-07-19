@@ -11,4 +11,6 @@ body {
   background: black;
   font-family: serif;
   font-size: 10vw;
+  cursor: pointer;
+  color: white;
 }
