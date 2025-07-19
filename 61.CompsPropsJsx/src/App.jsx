@@ -3,7 +3,7 @@ import { useState } from "react";
 import UserCard from "./components/UserCard";
 
 function App() {
-  const [state, setState] = useState(false);
+  const [state, setState] = useState(true);
 
   const info = [
     {
@@ -21,6 +21,7 @@ function App() {
   ];
   return (
     <div className="layer">
+      <button className="btn">Toggle</button>
       {state ? (
         <div className="container">
           {info.map((card) => {
