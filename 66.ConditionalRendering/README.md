@@ -144,3 +144,160 @@ function Greeting(props) {
 
 ---
 
+In React, **conditional rendering** means displaying different components or content based on certain conditions (like `if`, `true/false`, or `state`). Think of it like JavaScript’s `if` statement, but inside JSX.
+
+---
+
+### 🔸 Why Use Conditional Rendering?
+
+* To show/hide parts of the UI based on state, props, or other conditions.
+* Examples:
+
+  * Showing a login form only if the user is not logged in.
+  * Displaying a success message after form submission.
+  * Switching between dark/light themes.
+
+---
+
+### ✅ Different Ways to Do Conditional Rendering in React
+
+---
+
+### 1. **Using `if` Statement (Outside JSX)**
+
+Use regular `if...else` before the `return()`.
+
+```jsx
+function Greeting({ isLoggedIn }) {
+  if (isLoggedIn) {
+    return <h1>Welcome Back!</h1>;
+  } else {
+    return <h1>Please log in.</h1>;
+  }
+}
+```
+
+---
+
+### 2. **Using Ternary Operator (`? :`)**
+
+Used directly inside JSX. Best for simple two-way decisions.
+
+```jsx
+function Greeting({ isLoggedIn }) {
+  return (
+    <div>
+      {isLoggedIn ? <h1>Welcome Back!</h1> : <h1>Please log in.</h1>}
+    </div>
+  );
+}
+```
+
+---
+
+### 3. **Using Logical `&&` (AND Operator)**
+
+Great when you only want to show something **if a condition is true**, and show **nothing otherwise**.
+
+```jsx
+function Dashboard({ hasNotifications }) {
+  return (
+    <div>
+      <h1>Dashboard</h1>
+      {hasNotifications && <p>You have new notifications!</p>}
+    </div>
+  );
+}
+```
+
+---
+
+### 4. **Using `if-else` with a Variable**
+
+You can assign components to a variable and return that.
+
+```jsx
+function Greeting({ isLoggedIn }) {
+  let message;
+  if (isLoggedIn) {
+    message = <h1>Welcome Back!</h1>;
+  } else {
+    message = <h1>Please log in.</h1>;
+  }
+
+  return <div>{message}</div>;
+}
+```
+
+---
+
+### 5. **Using `switch-case` (for multiple conditions)**
+
+Helpful when you have 3 or more variations to show.
+
+```jsx
+function Status({ status }) {
+  switch (status) {
+    case "loading":
+      return <p>Loading...</p>;
+    case "error":
+      return <p>Error occurred!</p>;
+    case "success":
+      return <p>Data loaded successfully!</p>;
+    default:
+      return <p>Unknown status</p>;
+  }
+}
+```
+
+---
+
+### 6. **IIFE (Immediately Invoked Function Expressions)**
+
+If you want to run logic in JSX directly.
+
+```jsx
+function Greeting({ isLoggedIn }) {
+  return (
+    <div>
+      {(() => {
+        if (isLoggedIn) return <h1>Welcome Back!</h1>;
+        return <h1>Please log in.</h1>;
+      })()}
+    </div>
+  );
+}
+```
+
+---
+
+### ⚠️ Common Mistakes to Avoid
+
+* Using `if` directly inside JSX → ❌ Not allowed.
+
+  ```jsx
+  return (
+    <div>
+      {if (isLoggedIn) { ... }}  ❌ INVALID
+    </div>
+  );
+  ```
+
+* Not providing a fallback (`:`) in ternary for important cases.
+
+* Misusing `&&` when `false`, `0`, or `""` can render unexpected output.
+
+---
+
+### ✅ Summary
+
+| Method        | Best Use Case                          |
+| ------------- | -------------------------------------- |
+| `if`/`else`   | Outside JSX, basic conditional checks  |
+| Ternary `? :` | Inside JSX, two-way conditional render |
+| `&&`          | Show one thing only if true            |
+| `switch`      | Multi-condition rendering              |
+| IIFE          | Run logic inline within JSX            |
+
+---
+
