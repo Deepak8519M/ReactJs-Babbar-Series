@@ -9,6 +9,7 @@ function App() {
         <p>Be Consistent</p>
         <p>Be Confident</p>
       </Card>
+      <Card>Hello just 2nd Comp Created</Card>
     </div>
   );
 }
