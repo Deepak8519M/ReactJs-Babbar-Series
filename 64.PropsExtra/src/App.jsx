@@ -3,7 +3,7 @@ import Card from "./components/Card";
 
 function App() {
   return (
-    <div>
+    <div className="wrapper">
       <Card name="Deepak">
         <h1>Best Web Dev Approach</h1>
         <p>Be Consistent</p>
