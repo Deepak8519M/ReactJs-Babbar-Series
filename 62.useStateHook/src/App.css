@@ -9,6 +9,7 @@
   color: beige;
   align-items: center;
   cursor: pointer;
+  border-radius: 20px;
 }
 .btn {
   padding: 5px 10px;
