@@ -911,4 +911,4 @@ Then React puts that into the page. 🍹
 > Props are passed **before** React runs the component function.
 > React first **calls the component with props**, then **renders** the returned JSX.
 
-    
+---
