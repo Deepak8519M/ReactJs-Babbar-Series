@@ -1,7 +1,7 @@
 import React from "react";
 
 function Card(props) {
-  return <div>{props.name}</div>;
+  return <div>{props.children}</div>;
 }
 
 export default Card;
