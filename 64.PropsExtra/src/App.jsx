@@ -10,6 +10,7 @@ function App() {
         <p>Be Confident</p>
       </Card>
       <Card>Hello just 2nd Comp Created</Card>
+      <Card children="CHILD 1"></Card>
     </div>
   );
 }
