@@ -912,3 +912,174 @@ Then React puts that into the page. 🍹
 > React first **calls the component with props**, then **renders** the returned JSX.
 
 ---
+The error you're seeing is:
+
+```
+JSX attributes must only be assigned a non-empty expression. (6:22)
+```
+
+This means **React expects a value (a function) to be passed to the `onClick` prop**, but you have written:
+
+```jsx
+<button onClick={}>Hello</button>
+```
+
+Here, `{}` is **empty**, which is **not allowed**.
+
+---
+
+### ✅ Correct Usage:
+
+If you want to handle a click, you should pass a function like this:
+
+```jsx
+<button onClick={() => console.log("Button clicked")}>Hello</button>
+```
+
+Or, using a function you define:
+
+```jsx
+function handleClick() {
+  console.log("Button was clicked!");
+}
+
+<button onClick={handleClick}>Hello</button>
+```
+
+---
+
+### ❌ Wrong:
+
+```jsx
+<button onClick={}>Hello</button> // ❌ This causes error because it's empty
+```
+
+So the fix is: **always give `onClick` a proper function inside the `{}`**.
+---
+
+
+Yes, there **are different ways to pass props** in React, and there are **common mistakes** that can occur if you're not careful. Let's break this down clearly:
+
+---
+
+### ✅ **1. Standard Way (What you're using — Correct)**
+
+```jsx
+<Button handleClick={handleClick} count={count} />
+```
+
+This is the most common and readable way — you're passing:
+
+* `handleClick` → a function
+* `count` → a number
+
+---
+
+### ✅ **2. Passing Inline Values / Functions**
+
+You can also pass values or functions directly inline:
+
+```jsx
+<Button handleClick={() => alert("Clicked!")} count={5} />
+```
+
+Use this for **simple logic** only. For complex logic, **avoid inline functions** to keep things clean.
+
+---
+
+### ✅ **3. Children Prop (Built-in Special Prop)**
+
+```jsx
+<Card>
+  <h1>Hello</h1>
+  <p>This is a child element</p>
+</Card>
+```
+
+In the `Card` component, you access it via:
+
+```jsx
+function Card(props) {
+  return <div>{props.children}</div>;
+}
+```
+
+Or using destructuring:
+
+```jsx
+function Card({ children }) {
+  return <div>{children}</div>;
+}
+```
+
+You can also pass children directly as a string:
+
+```jsx
+<Card children="Hello world" />
+```
+
+But this is **not recommended** — it overrides any nested content.
+
+---
+
+### ❌ **Common Mistakes**
+
+#### 1. **Missing curly braces for expressions**
+
+```jsx
+<Button handleClick=handleClick /> // ❌ Wrong
+<Button handleClick={handleClick} /> // ✅ Correct
+```
+
+#### 2. **Passing non-function to `onClick`**
+
+```jsx
+<button onClick={}>Click</button> // ❌ Causes error
+```
+
+You must pass a **function**, even if it's inline:
+
+```jsx
+<button onClick={() => console.log("Clicked")}>Click</button> // ✅
+```
+
+#### 3. **String instead of actual value**
+
+```jsx
+<Button count="count" /> // ❌ This passes the literal string "count"
+<Button count={count} /> // ✅ Passes the value from state
+```
+
+#### 4. **Forgetting to use props in child**
+
+```jsx
+// In Button.jsx
+function Button() {
+  return <button>Click Me</button>; // ❌ Doesn't use props
+}
+```
+
+Correct usage:
+
+```jsx
+function Button({ handleClick, count }) {
+  return <button onClick={handleClick}>Count: {count}</button>; // ✅
+}
+```
+
+---
+
+### Summary
+
+| Method                   | Usage                               |
+| ------------------------ | ----------------------------------- |
+| Standard Props           | `<Comp title="Hello" />`            |
+| Function as Props        | `<Comp onClick={handleClick} />`    |
+| Children                 | `<Comp><h1>Child</h1></Comp>`       |
+| Inline Props             | `<Comp name={"John"} />`            |
+| Mistake: Missing `{}`    | `name="name"` vs `name={name}`      |
+| Mistake: Not using props | Forgetting to access props in child |
+
+Let me know if you want an example of all these cases in one file — I can make it super simple and readable.
+
+---
