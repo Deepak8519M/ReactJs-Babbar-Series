@@ -182,3 +182,7 @@ http://localhost:3000
 
 ---
 
+<Card name="Deepak"></Card>  this is already seen but lets see the new method
+
+---
+
