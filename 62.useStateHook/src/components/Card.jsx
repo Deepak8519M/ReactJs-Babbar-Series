@@ -5,7 +5,7 @@ function Card() {
   return (
     <div className="card">
       <h1>You have Clicked {count} times</h1>
-      <button onClick={() => setCount(++count)} className="btn">
+      <button onClick={() => setCount(count + 1)} className="btn">
         Click
       </button>
     </div>
