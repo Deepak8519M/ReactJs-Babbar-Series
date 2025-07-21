@@ -12,10 +12,16 @@ function App() {
   const handleInputChange = (e) => {
     console.log(e.target.value);
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert("form Submit");
+  };
   return (
     <div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <input type="text" onChange={(e) => handleInputChange(e)} />
+        <button type="submit">Submit</button>
       </form>
 
       {/* <p onMouseOver={handleMouseOver}>I am Para Tag</p>

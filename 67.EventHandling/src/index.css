@@ -20,7 +20,12 @@ p {
   background: seagreen;
 }
 button {
-  padding: 20px;
+  padding: 15px;
+  background: slateblue;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  margin-left: 20px;
 }
 input {
   padding: 10px;
