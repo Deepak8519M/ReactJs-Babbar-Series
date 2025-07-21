@@ -313,3 +313,80 @@ If using `onClick` on `div`, also add:
 
 ---
 
+Great question! Let's break this down clearly and simply:
+
+---
+
+### ❓ Why is this event handler written like a variable?
+
+```js
+const handleMouseOver = () => {
+  alert("handleMouseOver is being done");
+};
+```
+
+This line **defines a function using an arrow function** and stores it in a **variable** called `handleMouseOver`.
+
+---
+
+### ✅ So is it a variable or a function?
+
+👉 It's a **function expression stored in a variable**.
+
+The keyword `const` means:
+
+* You are creating a **constant reference** to a function.
+* The function itself can’t be reassigned.
+
+---
+
+### 🔁 Equivalent way using regular function:
+
+```js
+function handleMouseOver() {
+  alert("handleMouseOver is being done");
+}
+```
+
+Both are valid in JavaScript. The difference is in **style and behavior**.
+
+---
+
+### 📌 Why use `const` and arrow function in React?
+
+React apps often use **arrow functions with `const`** because:
+
+| ✅ Reason         | 🔍 Explanation                                                                                                        |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Consistency      | Works well inside components and hooks.                                                                               |
+| Lexical `this`   | Arrow functions don’t have their own `this`, so they inherit from the surrounding scope. (Useful in React components) |
+| Functional style | React encourages writing components and logic in a functional way.                                                    |
+
+---
+
+### 🧠 In simple words:
+
+```js
+const handleMouseOver = () => { ... };
+```
+
+is just a **shorthand modern way** of writing a function and assigning it to a variable. In React, this is very common.
+
+---
+
+### ✅ Final Example in React:
+
+```jsx
+function App() {
+  const handleMouseOver = () => {
+    alert("Mouse is over!");
+  };
+
+  return <button onMouseOver={handleMouseOver}>Hover Me</button>;
+}
+```
+
+> `handleMouseOver` is just a **function stored in a variable** — nothing fancy, just modern JavaScript style.
+
+---
+
