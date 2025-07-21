@@ -9,13 +9,13 @@ function App() {
     alert("handleMouseOver is being done");
   };
 
-  const handleInputChange = () => {
-    console.log("Good");
+  const handleInputChange = (e) => {
+    console.log(e.target.value);
   };
   return (
     <div>
       <form>
-        <input type="text" onChange={handleInputChange} />
+        <input type="text" onChange={(e) => handleInputChange(e)} />
       </form>
 
       {/* <p onMouseOver={handleMouseOver}>I am Para Tag</p>
