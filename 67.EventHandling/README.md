@@ -721,4 +721,107 @@ const showAlert = () => {
 
 ---
 
-|
+|Sure! Let’s explain **Event Bubbling** in a **very simple, visual, and beginner-friendly** way — perfect for your notes.
+
+---
+
+## 🧠 What is Event Bubbling?
+
+**Event Bubbling** is a concept in the browser's **event system** where an event starts at the **innermost element** (target), and then **"bubbles up"** to its parent, grandparent, and so on, all the way up to the `<body>`.
+
+---
+
+### 🥤 Easy Analogy:
+
+Imagine you **drop a ball** into a set of **nested bowls**.
+
+* It hits the **smallest bowl** (child)
+* Then bounces to the **next bigger bowl** (parent)
+* Then to the **biggest bowl** (grandparent)
+
+Same happens with events in HTML/React:
+👉 The event **starts from the deepest element** and **bubbles outward**.
+
+---
+
+## 🧪 HTML Example:
+
+```html
+<div onclick="alert('Div clicked')">
+  <button onclick="alert('Button clicked')">Click me</button>
+</div>
+```
+
+### What happens when you click the button?
+
+1. 🔹 `Button clicked` alert appears
+2. 🔹 Then `Div clicked` alert appears
+
+✅ Because the click **bubbles up** from `<button>` → `<div>`.
+
+---
+
+## 🧪 React Example:
+
+```jsx
+function App() {
+  const handleParentClick = () => {
+    alert("Parent Div Clicked");
+  };
+
+  const handleButtonClick = () => {
+    alert("Button Clicked");
+  };
+
+  return (
+    <div onClick={handleParentClick}>
+      <button onClick={handleButtonClick}>Click Me</button>
+    </div>
+  );
+}
+```
+
+### When the button is clicked:
+
+1. `Button Clicked` ✅
+2. `Parent Div Clicked` ✅ (because of bubbling)
+
+---
+
+## ⚙️ How to **Stop** Event Bubbling?
+
+You can use:
+
+```js
+e.stopPropagation();
+```
+
+This will stop the event from going to the parent.
+
+---
+
+### 🔧 Example with stopPropagation:
+
+```jsx
+const handleButtonClick = (e) => {
+  e.stopPropagation();
+  alert("Only Button Clicked");
+};
+```
+
+Now the click will **not reach the parent** — bubbling is stopped.
+
+---
+
+## 📌 Summary Notes
+
+| Concept            | Meaning                                 |
+| ------------------ | --------------------------------------- |
+| Event Bubbling     | Event moves from child → parent → root  |
+| Starts from        | Innermost (clicked) element             |
+| Why important      | Helps with event delegation and control |
+| Stop bubbling      | Use `e.stopPropagation()`               |
+| React behaves like | Regular browser bubbling system         |
+
+---
+
