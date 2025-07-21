@@ -654,3 +654,71 @@ const handleSomething = (e) => {
 ```
 
 ---
+Perfect! Here's a **combined explanation** of:
+
+* ❌ What happens with `onClick={alert(...)}`
+* ✅ Why it's wrong
+* ✅ How to fix it
+* 💡 What this mistake is called
+  All in a **simple, note-ready format**:
+
+---
+
+## 🖱️ React `onClick={alert("...")}` — What’s Happening?
+
+### ❌ Code (Mistake):
+
+```jsx
+<button onClick={alert("Button Click happened")}>Click Me</button>
+```
+
+### 🔍 What Happens:
+
+* `alert("Button Click happened")` is **called immediately when the component renders**.
+* Its result (which is `undefined`) is passed to `onClick`.
+* So:
+
+  * ✅ Alert shows up **as soon as the page loads**
+  * ❌ Nothing happens when the button is clicked
+
+### 📛 What is this called?
+
+> This is called **"immediate invocation"** or **"calling a function during render"** — a common mistake.
+
+---
+
+## ✅ Correct Way 1: Using an Arrow Function
+
+```jsx
+<button onClick={() => alert("Button Click happened")}>Click Me</button>
+```
+
+* `() => alert("...")` creates a function.
+* This function only runs **when the button is clicked**.
+
+---
+
+## ✅ Correct Way 2: Using a Named Function
+
+```jsx
+const showAlert = () => {
+  alert("Button Click happened");
+};
+
+<button onClick={showAlert}>Click Me</button>
+```
+
+* Clean and reusable.
+* Preferred for better structure and readability.
+
+---
+
+## 🧠 Final Notes Summary
+
+| ❌ Wrong Way              | ✅ Right Way                                             | 🔍 Why?                                                         |
+| ------------------------ | ------------------------------------------------------- | --------------------------------------------------------------- |
+| `onClick={alert("...")}` | `onClick={() => alert("...")}` or `onClick={showAlert}` | So that the alert runs **only when clicked**, not during render |
+
+---
+
+|
