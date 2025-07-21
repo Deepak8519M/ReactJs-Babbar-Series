@@ -3,7 +3,7 @@ import React from "react";
 function App() {
   return (
     <div>
-      <h1>Event Handling</h1>
+      <button>Event Handling</button>
     </div>
   );
 }
