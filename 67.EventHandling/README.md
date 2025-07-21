@@ -130,3 +130,186 @@ function App() {
 
 ---
 
+Here are the **Best Practices for Event Handling in React**, simplified and organized for notes:
+
+---
+
+## ✅ Best Practices for Event Handling in React
+
+---
+
+### 1. **Use Descriptive Function Names**
+
+Avoid:
+
+```jsx
+onClick={() => setX(true)}
+```
+
+Prefer:
+
+```jsx
+function handleOpen() {
+  setX(true);
+}
+
+<button onClick={handleOpen}>Open</button>
+```
+
+🟢 **Why?** Improves readability and debugging.
+
+---
+
+### 2. **Avoid Inline Functions (when possible)**
+
+Bad (if used repeatedly):
+
+```jsx
+<button onClick={() => doSomething()}>Click</button>
+```
+
+Good:
+
+```jsx
+function handleClick() {
+  doSomething();
+}
+```
+
+🟢 **Why?** Inline functions create a **new function every render**, which may cause performance issues or unexpected re-renders.
+
+---
+
+### 3. **Use `event.preventDefault()` Carefully**
+
+For forms:
+
+```jsx
+function handleSubmit(e) {
+  e.preventDefault(); // Stop form from refreshing page
+}
+```
+
+🟢 **Why?** Prevents page reload, allowing SPA behavior.
+
+---
+
+### 4. **Always Handle Input Events Properly**
+
+```jsx
+<input type="text" onChange={(e) => setValue(e.target.value)} />
+```
+
+🟢 **Tip:** Use controlled components (bind input value to state) for better form control.
+
+---
+
+### 5. **Use Arrow Functions for Simple One-liners (only if really needed)**
+
+```jsx
+<button onClick={() => alert("Clicked!")}>Click</button>
+```
+
+🟢 **Okay for quick testing**, but avoid in large apps or reusable components.
+
+---
+
+### 6. **Use Synthetic Events in React**
+
+React uses a wrapper called **SyntheticEvent** for all events (e.g., `onClick`, `onChange`) — they work **the same** across all browsers.
+
+🟢 **Why?** Ensures cross-browser compatibility.
+
+---
+
+### 7. **Extract Event Handlers Outside JSX**
+
+Avoid:
+
+```jsx
+<button onClick={() => {
+  doThis();
+  doThat();
+}}>Click</button>
+```
+
+Prefer:
+
+```jsx
+function handleClick() {
+  doThis();
+  doThat();
+}
+```
+
+---
+
+### 8. **Avoid Binding in Render (Class Components)**
+
+Bad:
+
+```jsx
+<button onClick={this.handleClick.bind(this)}>Click</button>
+```
+
+Good (Class):
+
+```jsx
+constructor() {
+  this.handleClick = this.handleClick.bind(this);
+}
+```
+
+✅ **Or** use arrow functions:
+
+```jsx
+handleClick = () => { ... }
+```
+
+🟢 Functional components with hooks avoid this issue.
+
+---
+
+### 9. **Clean Up Events in useEffect (if using addEventListener)**
+
+If you're adding global event listeners:
+
+```jsx
+useEffect(() => {
+  window.addEventListener("resize", handleResize);
+
+  return () => {
+    window.removeEventListener("resize", handleResize);
+  };
+}, []);
+```
+
+🟢 **Why?** Prevents memory leaks.
+
+---
+
+### 10. **Follow Accessibility (a11y) Practices**
+
+If using `onClick` on `div`, also add:
+
+```jsx
+<div onClick={handleClick} role="button" tabIndex="0" onKeyDown={handleKeyDown}>
+```
+
+🟢 **Why?** Helps keyboard and screen reader users.
+
+---
+
+## 🔚 Quick Summary
+
+| ✅ Good Practice         | 💡 Reason             |
+| ----------------------- | --------------------- |
+| Use named handlers      | Clean & readable      |
+| Avoid inline functions  | Prevent re-renders    |
+| Use `preventDefault`    | Stop form reload      |
+| Bind inputs properly    | Full control of forms |
+| Clean up listeners      | Prevent memory leaks  |
+| Write accessible events | Better UX & a11y      |
+
+---
+
