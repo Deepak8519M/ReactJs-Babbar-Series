@@ -10,8 +10,8 @@ function App() {
   };
   return (
     <div>
-      <p onMouseOver={handleMouseOver}>I am Para Tag</p>
-      <button onClick={handleClick}>Event Handling</button>
+      {/* <p onMouseOver={handleMouseOver}>I am Para Tag</p>
+      <button onClick={handleClick}>Event Handling</button> */}
     </div>
   );
 }
