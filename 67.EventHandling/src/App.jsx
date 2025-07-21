@@ -19,10 +19,11 @@ function App() {
   };
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <button onClick={() => alert("Button Click happened")}>Click Me</button>
+      {/* <form onSubmit={handleSubmit}>
         <input type="text" onChange={(e) => handleInputChange(e)} />
         <button type="submit">Submit</button>
-      </form>
+      </form> */}
 
       {/* <p onMouseOver={handleMouseOver}>I am Para Tag</p>
       <button onClick={handleClick}>Event Handling</button> */}
