@@ -1,12 +1,86 @@
-# React + Vite
+The `useEffect` hook is one of the most commonly used hooks in **React**. It lets you perform **side effects** in function components.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-Currently, two official plugins are available:
+### 🔄 What are Side Effects?
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Side effects are operations that interact with the outside world or affect things outside the current function scope, such as:
 
-## Expanding the ESLint configuration
+* Fetching data from an API
+* Updating the DOM manually
+* Setting up a subscription or timer
+* Changing the title of the webpage
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+### ✅ Syntax of `useEffect`
+
+```js
+import { useEffect } from "react";
+
+useEffect(() => {
+  // Your side effect code here
+
+  return () => {
+    // Optional cleanup code
+  };
+}, [dependencies]);
+```
+
+---
+
+### 🔍 Breakdown
+
+* `() => { ... }` — The main function runs **after** the component renders.
+* `return () => { ... }` — Optional cleanup function runs **before** the component unmounts or before the effect re-runs.
+* `[dependencies]` — Controls **when** the effect runs.
+
+---
+
+### 🧠 Example 1: Run once on mount
+
+```js
+useEffect(() => {
+  console.log("Component mounted");
+}, []);
+```
+
+> The empty dependency array `[]` means it runs **only once** after the initial render.
+
+---
+
+### 🔁 Example 2: Run when a value changes
+
+```js
+useEffect(() => {
+  console.log("Count changed:", count);
+}, [count]);
+```
+
+> This effect runs whenever `count` changes.
+
+---
+
+### 🧹 Example 3: Cleanup
+
+```js
+useEffect(() => {
+  const timer = setInterval(() => {
+    console.log("Tick");
+  }, 1000);
+
+  return () => {
+    clearInterval(timer); // cleanup
+  };
+}, []);
+```
+
+---
+
+### 🛠 Why is `useEffect` Useful?
+
+* Replaces lifecycle methods like `componentDidMount`, `componentDidUpdate`, `componentWillUnmount` in class components.
+* Keeps your component logic cleaner and more consistent.
+
+---
+
