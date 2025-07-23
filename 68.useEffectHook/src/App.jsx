@@ -5,9 +5,9 @@ function App() {
 
   const [total, setTotal] = useState(0);
 
-  useEffect(() => {
-    alert("I will show up every time count is rerendered");
-  }, [count, total]);
+  // useEffect(() => {
+  //   alert("I will show up every time count is rerendered");
+  // }, [count, total]); -- variation 4
 
   const handlClick = () => {
     setCount(count + 1);
@@ -16,6 +16,14 @@ function App() {
   const handleTotalClick = () => {
     setTotal(total + 1);
   };
+
+  useEffect(() => {
+    alert("count is updated");
+
+    return () => {
+      alert("count is unmounted from ui");
+    };
+  }, [count]);
 
   return (
     <div>
