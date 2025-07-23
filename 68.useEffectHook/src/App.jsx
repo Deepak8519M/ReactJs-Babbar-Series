@@ -3,6 +3,7 @@ import LoggerComponent from "./components/LoggerComponent";
 import TimeComponent from "./components/TimeComponent";
 import DataFetcher from "./components/DataFetcher";
 import ResizeComponent from "./components/ResizeComponent";
+import MultiEffectComponent from "./components/MultiEffectComponent";
 
 function App() {
   // const [count, setCount] = useState(0);
@@ -31,8 +32,9 @@ function App() {
 
   return (
     <div>
+      <MultiEffectComponent />
       {/* <DataFetcher /> */}
-      <ResizeComponent />
+      {/* <ResizeComponent /> */}
       {/* <TimeComponent /> */}
       {/* <LoggerComponent /> */}
 
