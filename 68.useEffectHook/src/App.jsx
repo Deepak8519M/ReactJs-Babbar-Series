@@ -7,7 +7,7 @@ function App() {
 
   useEffect(() => {
     alert("I will show up every time count is rerendered");
-  }, [count]);
+  }, [count, total]);
 
   const handlClick = () => {
     setCount(count + 1);
