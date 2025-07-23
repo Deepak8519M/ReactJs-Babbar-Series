@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import LoggerComponent from "./components/LoggerComponent";
 
 function App() {
   // const [count, setCount] = useState(0);
@@ -27,6 +28,7 @@ function App() {
 
   return (
     <div>
+      <LoggerComponent />
       {/* <h1>{count}</h1>
       <button onClick={handlClick}>Click</button>
       <br />
