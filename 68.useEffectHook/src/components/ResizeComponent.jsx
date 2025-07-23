@@ -12,7 +12,7 @@ function ResizeComponent() {
       console.log("Event Listener Removed");
       window.removeEventListener("resize", handleResize);
     };
-  });
+  },[]);
   return (
     <div>
       <h1>Window Width: {windowWidth} </h1>
