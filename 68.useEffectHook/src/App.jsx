@@ -1,37 +1,37 @@
 import React, { useEffect, useState } from "react";
 
 function App() {
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
 
-  const [total, setTotal] = useState(0);
+  // const [total, setTotal] = useState(0);
 
   // useEffect(() => {
   //   alert("I will show up every time count is rerendered");
   // }, [count, total]); -- variation 4
 
-  const handlClick = () => {
-    setCount(count + 1);
-  };
+  // const handlClick = () => {
+  //   setCount(count + 1);
+  // };
 
-  const handleTotalClick = () => {
-    setTotal(total + 1);
-  };
+  // const handleTotalClick = () => {
+  //   setTotal(total + 1);
+  // };
 
-  useEffect(() => {
-    alert("count is updated");
+  // useEffect(() => {
+  //   alert("count is updated");
 
-    return () => {
-      alert("count is unmounted from ui");
-    };
-  }, [count]);
+  //   return () => {
+  //     alert("count is unmounted from ui");
+  //   };
+  // }, [count]);
 
   return (
     <div>
-      <h1>{count}</h1>
+      {/* <h1>{count}</h1>
       <button onClick={handlClick}>Click</button>
       <br />
       <h1>{total}</h1>
-      <button onClick={handleTotalClick}>Click</button>
+      <button onClick={handleTotalClick}>Click</button> */}
     </div>
   );
 }
