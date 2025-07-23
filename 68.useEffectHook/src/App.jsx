@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import LoggerComponent from "./components/LoggerComponent";
 import TimeComponent from "./components/TimeComponent";
 import DataFetcher from "./components/DataFetcher";
+import ResizeComponent from "./components/ResizeComponent";
 
 function App() {
   // const [count, setCount] = useState(0);
@@ -30,7 +31,8 @@ function App() {
 
   return (
     <div>
-      <DataFetcher />
+      {/* <DataFetcher /> */}
+      <ResizeComponent />
       {/* <TimeComponent /> */}
       {/* <LoggerComponent /> */}
 
