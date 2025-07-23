@@ -571,3 +571,87 @@ If you open the browser dev tools and do a **hard refresh (Ctrl+Shift+R)** or di
 
 ---
 
+Great that you’re testing `useEffect` with data fetching!
+And yes — there's a **small but important mistake** in this code. Let's find and fix it step-by-step.
+
+---
+
+## ❌ **Mistake**
+
+Inside the `fetch().then()` block:
+
+```js
+fetch("https://jsonplaceholder.typicode.com/posts").then((res) => {
+  setData(data);   // ❌ WRONG
+  setLoading(false);
+});
+```
+
+You’re calling `setData(data)` — but you're just resetting it to its **own current value**, which is still an **empty array** (`[]`).
+
+You're **not actually setting the fetched data**!
+
+---
+
+## ✅ **Fix**
+
+You need to **parse the response as JSON** and then update the state with the fetched data:
+
+```js
+useEffect(() => {
+  fetch("https://jsonplaceholder.typicode.com/posts")
+    .then((res) => res.json()) // ✅ convert response to JSON
+    .then((json) => {
+      setData(json);          // ✅ set the real fetched data
+      setLoading(false);      // ✅ update loading state
+    });
+}, []);
+```
+
+---
+
+## 🧠 Full Corrected Code
+
+```jsx
+import React, { useEffect, useState } from "react";
+
+function DataFetcher() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/posts")
+      .then((res) => res.json())
+      .then((json) => {
+        setData(json);
+        setLoading(false);
+      });
+  }, []);
+
+  return (
+    <div>
+      {loading ? (
+        <h1>Loading ...</h1>
+      ) : (
+        <ul>
+          {data.map((post) => (
+            <li key={post.id}>{post.title}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+export default DataFetcher;
+```
+
+---
+
+## ✅ Output Behavior
+
+1. First shows `Loading...`
+2. Then fetches post titles from the API
+3. Updates UI with a list of titles
+
+---
