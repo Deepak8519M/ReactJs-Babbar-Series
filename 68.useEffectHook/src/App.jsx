@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import LoggerComponent from "./components/LoggerComponent";
 import TimeComponent from "./components/TimeComponent";
+import DataFetcher from "./components/DataFetcher";
 
 function App() {
   // const [count, setCount] = useState(0);
@@ -29,7 +30,8 @@ function App() {
 
   return (
     <div>
-      <TimeComponent />
+      <DataFetcher />
+      {/* <TimeComponent /> */}
       {/* <LoggerComponent /> */}
 
       {/* <h1>{count}</h1>
