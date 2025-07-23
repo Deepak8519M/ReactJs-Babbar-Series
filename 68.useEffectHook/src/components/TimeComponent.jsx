@@ -6,12 +6,14 @@ function TimeComponent() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setSeconds((prveSeconds) => prveSeconds + 1);
+      console.log("Timer Runs");
     }, 1000);
 
     return () => {
       clearInterval(intervalId);
+      console.log("Unmounted");
     };
-  }, []);
+  }, [seconds]);
 
   return (
     <div>
