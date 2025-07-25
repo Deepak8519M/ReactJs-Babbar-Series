@@ -10,3 +10,8 @@ body {
   height: 100%;
   font-family: "Urbanist", sans-serif;
 }
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
