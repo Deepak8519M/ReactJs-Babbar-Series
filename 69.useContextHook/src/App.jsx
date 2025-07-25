@@ -1,11 +1,12 @@
 import React, { createContext } from "react";
+import ChildA from "./components/ChildA";
 
 const UserContext = createContext();
 
 function App() {
   return (
     <div>
-      <h1>Use Context Hook</h1>
+      <ChildA />
     </div>
   );
 }
