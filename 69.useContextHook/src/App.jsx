@@ -1,18 +1,21 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import ChildA from "./components/ChildA";
 
-const UserContext = createContext();
+// const UserContext = createContext();
+const ThemeContext = createContext();
 
 function App() {
-  const [value, setValue] = useState("Hello this is UserContext");
+  // const [value, setValue] = useState("Hello this is UserContext");
+  const [theme, setTheme] = useState("light");
   return (
     <>
-      <UserContext.Provider value={{ value, setValue }}>
+      <ThemeContext.Provider value={{ theme, setTheme }}>
         <ChildA />
-      </UserContext.Provider>
+      </ThemeContext.Provider>
     </>
   );
 }
 
 export default App;
-export { UserContext };
+
+export { ThemeContext };

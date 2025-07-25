@@ -1,12 +1,11 @@
 import React, { useContext } from "react";
-import { UserContext } from "../App";
+import { ThemeContext } from "../App";
 
 function ChildC() {
-  const { value, setValue } = useContext(UserContext);
+  const { theme, setTheme } = useContext(ThemeContext);
   return (
     <div>
-      <h1>{value}</h1>
-      <button onClick={() => setValue("This is Deepak")}>Click</button>
+      <h1>{theme}</h1>
     </div>
   );
 }
