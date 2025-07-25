@@ -99,3 +99,117 @@ Imagine `UserContext` is like a **shared notice board** in a classroom:
 
 ---
 
+You should always define `UserContext` **outside of the component**. ✅
+
+---
+
+## 🔁 Here's a quick comparison:
+
+### ❌ Wrong way — defining inside a component
+
+```jsx
+function App() {
+  const UserContext = createContext(); // ❌ BAD PRACTICE
+
+  return (
+    <UserContext.Provider value={"Deepak"}>
+      {/* some components */}
+    </UserContext.Provider>
+  );
+}
+```
+
+### ❌ Why this is wrong?
+
+* A **new context is created every time** the component renders.
+* This breaks `useContext()` in child components.
+* Causes bugs and performance issues.
+
+---
+
+### ✅ Correct way — define outside
+
+```jsx
+// ✅ This goes in its own file like UserContext.js (optional)
+import { createContext } from "react";
+
+export const UserContext = createContext(); // ✅ Good practice
+```
+
+Then, use it in your component:
+
+```jsx
+import React, { useState } from "react";
+import { UserContext } from "./UserContext";
+
+function App() {
+  const [user, setUser] = useState({ name: "Deepak" });
+
+  return (
+    <UserContext.Provider value={user}>
+      {/* child components */}
+    </UserContext.Provider>
+  );
+}
+```
+
+---
+
+## 📌 Final Rule to Remember:
+
+> Always define `createContext()` **outside** of your component function — usually at the **top of your file** or in a **separate file** like `UserContext.js`.
+
+---
+
+Ah! Got it 😄 — you're asking about **`useContext()`**, *not* `createContext()`.
+
+Let’s clarify that:
+
+---
+
+## 🔷 Should `useContext()` be called **inside or outside** a component?
+
+👉 **Answer:**
+
+> `useContext()` must always be called **inside a React component or a custom hook**, **never outside**.
+
+---
+
+## ✅ Correct Usage
+
+```jsx
+import React, { useContext } from "react";
+import { UserContext } from "./UserContext";
+
+function Profile() {
+  const user = useContext(UserContext); // ✅ used INSIDE the component
+
+  return <h1>Welcome, {user.name}!</h1>;
+}
+```
+
+---
+
+## ❌ Incorrect Usage
+
+```jsx
+// ❌ Don't do this outside a component
+const user = useContext(UserContext); // ❌ This will cause an error!
+```
+
+### Why?
+
+React hooks (like `useContext`) rely on the component lifecycle — they only work **while React is rendering a function component or custom hook**.
+Using them outside that context breaks React's rules of hooks.
+
+---
+
+## 🔁 Summary
+
+| Hook              | Where to define                            |
+| ----------------- | ------------------------------------------ |
+| `createContext()` | ✅ Outside components                       |
+| `useContext()`    | ✅ Inside components only (or custom hooks) |
+
+---
+
