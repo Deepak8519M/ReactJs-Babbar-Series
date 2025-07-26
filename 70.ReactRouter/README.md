@@ -958,3 +958,68 @@ Absolutely! Here's a **very simple and beginner-friendly step-by-step** explanat
 
 ---
 
+Great question! In React Router, both `<Link>` and `<NavLink>` are used for navigation in **Single Page Applications (SPA)**, but they serve slightly different purposes.
+
+---
+
+## ✅ 1. `<Link>` – Basic Navigation
+
+### 📌 What it does:
+
+* Navigates to a different route **without refreshing** the page (SPA behavior).
+* Replaces `<a href="">` in React apps.
+
+### 📦 Example:
+
+```jsx
+import { Link } from "react-router-dom";
+
+<Link to="/about">About Us</Link>
+```
+
+### ✅ Features:
+
+* Simple navigation
+* Keeps React state alive
+* Doesn’t apply any active styling automatically
+
+---
+
+## ✅ 2. `<NavLink>` – Navigation + Active Style Support
+
+### 📌 What it does:
+
+* Works exactly like `<Link>` **but also** adds an `"active"` class or custom style **when the link matches the current route**.
+* Useful for highlighting the **current page** in a navbar.
+
+### 📦 Example:
+
+```jsx
+import { NavLink } from "react-router-dom";
+
+<NavLink to="/about" className={({ isActive }) => isActive ? "active-link" : ""}>
+  About Us
+</NavLink>
+```
+
+✅ When you are on `/about`, this link will automatically get the class `"active-link"`.
+
+---
+
+## 🔍 Difference Summary
+
+| Feature               | `<Link>` | `<NavLink>`               |
+| --------------------- | -------- | ------------------------- |
+| Basic navigation      | ✅ Yes    | ✅ Yes                     |
+| Preserves state (SPA) | ✅ Yes    | ✅ Yes                     |
+| Active link styling   | ❌ No     | ✅ Yes (with `isActive`)   |
+| Common use            | Anywhere | Navigation menus, headers |
+
+---
+
+## 🎯 When to Use What?
+
+* Use **`<Link>`** for regular routing where you **don’t need to highlight** the current tab.
+* Use **`<NavLink>`** when you want **navigation tabs or menu items** to show which one is currently active (like highlighting "Home" in a navbar).
+
+---
