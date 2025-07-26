@@ -8,15 +8,30 @@ import NavBar from "./components/NavBar";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: (
+      <div>
+        <Home />
+        <NavBar />
+      </div>
+    ),
   },
   {
     path: "/about",
-    element: <About />,
+    element: (
+      <div>
+        <About />
+        <NavBar />
+      </div>
+    ),
   },
   {
     path: "/dashboard",
-    element: <DashBoard />,
+    element: (
+      <div>
+        <DashBoard />
+        <NavBar />
+      </div>
+    ),
   },
 ]);
 
@@ -24,7 +39,6 @@ function App() {
   return (
     <div>
       <RouterProvider router={router} />
-      <NavBar />
     </div>
   );
 }
