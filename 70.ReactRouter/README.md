@@ -2384,3 +2384,76 @@ Without `<Outlet />`, nothing from `/dashboard/courses` or `/dashboard/mocktest`
 
 ---
 
+In **React Router**, the `*` (wildcard or splat) is **very important for handling unmatched or unknown paths** — in other words, it's used to define a **"catch-all" route for errors** like **404 - Page Not Found**.
+
+---
+
+## 🔍 What does `*` mean in routing?
+
+The path `*` matches **any route that wasn’t already matched** by your defined paths.
+
+---
+
+### ✅ Why is it important?
+
+1. **Handles unknown paths gracefully**
+   Instead of your app breaking or showing a blank screen when the user visits a wrong URL, it shows a proper **404 error component**.
+
+2. **Acts as a fallback**
+   It's the **last route** React Router checks. If nothing matches, this route is used.
+
+---
+
+### 🧩 Example:
+
+```jsx
+import ErrorPage from "./components/ErrorPage";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+  },
+  {
+    path: "/about",
+    element: <About />,
+  },
+  {
+    path: "*", // Wildcard catch-all route
+    element: <ErrorPage />, // Shown if no above route matches
+  },
+]);
+```
+
+---
+
+### 🧠 Remember:
+
+* Put the `*` route **at the end**.
+* It works like a **default case** in a `switch`.
+
+---
+
+### 🔁 Nested example:
+
+If you're using nested routes, you can also use `*` for error inside a specific section:
+
+```jsx
+{
+  path: "/dashboard",
+  element: <Dashboard />,
+  children: [
+    {
+      path: "courses",
+      element: <Courses />,
+    },
+    {
+      path: "*", // Catch invalid child paths like /dashboard/somethingwrong
+      element: <ErrorPage />,
+    }
+  ]
+}
+```
+
+---
+
