@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const DashBoard = () => {
   const navigate = useNavigate();
@@ -9,6 +9,7 @@ const DashBoard = () => {
     <div>
       <h1>DashBoard</h1>
       <button onClick={handler}>Move to About Page</button>
+      <Outlet />
     </div>
   );
 };
