@@ -8,6 +8,7 @@ import ParamComponent from "./components/ParamComponent";
 import Courses from "./components/Courses";
 import MockTest from "./components/MockTest";
 import Reports from "./components/Reports";
+import NotFound from "./components/NotFound";
 
 const router = createBrowserRouter([
   {
