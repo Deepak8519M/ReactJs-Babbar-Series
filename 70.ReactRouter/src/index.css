@@ -21,5 +21,11 @@ ul {
 }
 .link {
   text-decoration: none;
+  border: 3px solid transparent;
   color: white;
+  padding: 10px;
+}
+.active-link {
+  border: 3px solid black;
+  padding: 10px;
 }
