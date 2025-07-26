@@ -2250,3 +2250,76 @@ export default About;
 
 ---
 
+Great question! The error:
+
+```
+Absolute route path "/courses" nested under path "/dashboard" is not valid. An absolute child route path must start with the combined path of all its parent routes.
+```
+
+means:
+
+You're trying to **nest routes**, but you've written **absolute paths** (`"/courses"`, `"/mocktest"`, `"/reports"`) inside the children of `"/dashboard"`.
+
+---
+
+### ✅ Why is this a problem?
+
+In **nested routing**, child paths are expected to be **relative** to their parent.
+
+If the parent is `/dashboard`, then:
+
+* child `path: "courses"` → becomes `/dashboard/courses`
+* child `path: "mocktest"` → becomes `/dashboard/mocktest`
+
+But if you use `"/courses"`, it's absolute and doesn't know it should be under `/dashboard`.
+
+---
+
+### 🔧 How to Fix?
+
+Change this part:
+
+```js
+children: [
+  {
+    path: "/courses", // ❌ wrong
+    element: <Courses />,
+  },
+  {
+    path: "/mocktest", // ❌ wrong
+    element: <MockTest />,
+  },
+  {
+    path: "/reports", // ❌ wrong
+    element: <Reports />,
+  },
+],
+```
+
+To this:
+
+```js
+children: [
+  {
+    path: "courses", // ✅ correct
+    element: <Courses />,
+  },
+  {
+    path: "mocktest",
+    element: <MockTest />,
+  },
+  {
+    path: "reports",
+    element: <Reports />,
+  },
+],
+```
+
+---
+
+### 🧠 Concept Summary
+
+* ✅ Relative path → `path: "courses"` = `/dashboard/courses`
+* ❌ Absolute path → `path: "/courses"` = `/courses` (not nested under `/dashboard`)
+
+---
