@@ -38,15 +38,15 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "/courses",
+        path: "courses",
         element: <Courses />,
       },
       {
-        path: "/mocktest",
+        path: "mocktest",
         element: <MockTest />,
       },
       {
-        path: "/reports",
+        path: "reports",
         element: <Reports />,
       },
     ],
