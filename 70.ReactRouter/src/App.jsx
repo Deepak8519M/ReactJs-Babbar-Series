@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./components/Home";
 import About from "./components/About";
 import DashBoard from "./components/DashBoard";
+import NavBar from "./components/NavBar";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,7 @@ function App() {
   return (
     <div>
       <RouterProvider router={router} />
+      <NavBar />
     </div>
   );
 }
