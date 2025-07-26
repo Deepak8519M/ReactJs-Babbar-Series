@@ -10,3 +10,16 @@ body {
   height: 100%;
   font-family: "Urbanist", sans-serif;
 }
+ul {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 20px;
+  background: orangered;
+}
+.link {
+  text-decoration: none;
+  color: white;
+}
