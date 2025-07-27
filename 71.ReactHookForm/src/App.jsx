@@ -35,7 +35,7 @@ const App = () => {
             type="text"
             {...register("middleName", {
               minLength: { value: 3, message: "Min Length atleast 3" },
-              maxLength: 5,
+              maxLength: { value: 6, message: "Max length of words 5" },
               required: true,
             })}
           />
