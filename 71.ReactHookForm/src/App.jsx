@@ -18,7 +18,10 @@ const App = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label>First Name</label>
-          <input type="text" {...register("firstName")} />
+          <input
+            type="text"
+            {...register("firstName", { required: true, maxLength: 20 })}
+          />
         </div>
         <br />
         <div>
