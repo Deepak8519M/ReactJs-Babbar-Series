@@ -23,17 +23,23 @@ const App = () => {
             {...register("firstName", {
               required: true,
               maxLength: 20,
-              minLength: 3,
+              minLength: { value: 3, message: "Min Length Less than 3" },
             })}
           />
+          {errors.firstName && <p>{errors.firstName.message}</p>}
         </div>
         <br />
         <div>
           <label>Middle Name</label>
           <input
             type="text"
-            {...register("middleName", { minLength: 3, maxLength: 5 })}
+            {...register("middleName", {
+              minLength: { value: 3, message: "Min Length atleast 3" },
+              maxLength: 5,
+              required: true,
+            })}
           />
+          {errors.middleName && <p>{errors.middleName.message}</p>}
         </div>
         <br />
         <div>
