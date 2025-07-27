@@ -2022,3 +2022,200 @@ That's what we’re doing with `resolve` here.
 ---
 
 
+Great question! You're asking:
+
+> In this code:
+
+```jsx
+<form onSubmit={handleSubmit(onSubmit)}>
+```
+
+> There's a `onSubmit` function, and also an `onSubmit` event.
+> So **how can we have the same name `onSubmit`? Isn’t it confusing or wrong?**
+
+---
+
+### 🔍 Let’s Clear It Up
+
+You're seeing this line:
+
+```js
+async function onSubmit(data) {
+  await new Promise((resolve) => setTimeout(resolve, 5000));
+  console.log("submiting the form", data);
+}
+```
+
+And this line in JSX:
+
+```jsx
+<form onSubmit={handleSubmit(onSubmit)}>
+```
+
+Let’s explain **each part** so it makes sense clearly.
+
+---
+
+### ✅ `onSubmit` in `<form onSubmit={...}>`
+
+* This `onSubmit` is a **React form event handler**.
+* It expects a function that runs when the form is submitted.
+
+👉 It’s like saying:
+
+> “When the user clicks submit, run this function.”
+
+---
+
+### ✅ `onSubmit` function (your own function)
+
+This is just **your own function name** that will be called when the form is submitted.
+
+You could name it anything — `submitData`, `handleMyForm`, `sendForm`, etc.
+
+Using `onSubmit` is **just a naming choice** to make things readable and aligned.
+
+---
+
+### ✅ And `handleSubmit(onSubmit)`?
+
+You're likely using **`react-hook-form`**, and `handleSubmit` is a special helper function from it.
+
+What it does is:
+
+* Validates the form data
+* If it's valid, it calls **your `onSubmit(data)`** function, passing the form data to it.
+
+So this:
+
+```jsx
+<form onSubmit={handleSubmit(onSubmit)}>
+```
+
+Is basically saying:
+
+> “When this form is submitted, run react-hook-form’s handleSubmit(). If everything is valid, then call my own `onSubmit(data)` function.”
+
+---
+
+### 🧠 Can We Use a Different Name?
+
+Yes!
+
+```js
+async function handleFormSubmit(data) {
+  // your logic
+}
+
+<form onSubmit={handleSubmit(handleFormSubmit)}>
+```
+
+No problem. It’s just a variable name.
+
+---
+
+### 💡 Summary
+
+| Term                       | Meaning                                                                     |
+| -------------------------- | --------------------------------------------------------------------------- |
+| `onSubmit` on the `<form>` | Built-in React event for form submission                                    |
+| `onSubmit(data)` function  | Your custom function that gets form data                                    |
+| `handleSubmit()`           | Provided by `react-hook-form`, it wraps your function with validation logic |
+
+---
+Great question! Let's break it down clearly:
+
+---
+
+### 🔥 Can you give a function the same name as a keyword in JavaScript?
+
+➡️ **No, you cannot name a function (or variable) with a reserved keyword.**
+For example, this is **not allowed**:
+
+```js
+function return() {} // ❌ SyntaxError: Unexpected token 'return'
+let let = 5;         // ❌ Invalid or unexpected token
+```
+
+> ❌ Keywords like `return`, `if`, `for`, `class`, `await`, `const`, `function`, etc., are **reserved words** — you can't use them as variable or function names.
+
+---
+
+### ✅ But `onSubmit` is NOT a keyword
+
+`onSubmit` is **not a reserved keyword** in JavaScript. It's just a **convention** — a normal identifier used in HTML/React for the event.
+
+So, this is completely fine:
+
+```js
+function onSubmit(data) {
+  // your logic
+}
+```
+
+Because `onSubmit` is just a **custom name**, **not a keyword** like `return` or `function`.
+
+---
+
+### ✅ What *can* you use as names?
+
+You **can use any name** for a variable or function as long as:
+
+* It's **not a reserved keyword**
+* It's not already used in that **scope**
+* It starts with a valid character (not a number, etc.)
+
+Examples:
+
+✅ Allowed:
+
+```js
+let username = "John";
+function handleClick() {}
+const myValue = 10;
+```
+
+❌ Not allowed:
+
+```js
+let const = 5;        // ❌ "const" is a keyword
+function for() {}     // ❌ "for" is a keyword
+```
+
+---
+
+### ✅ Can you reuse the same name for multiple things?
+
+Yes — **in different scopes**, it's fine:
+
+```js
+function myFunc() {
+  let data = "inside";
+}
+
+let data = "outside"; // ✅ this is fine
+```
+
+But if you do this in the same block:
+
+```js
+let data = "one";
+let data = "two";  // ❌ SyntaxError: Identifier 'data' has already been declared
+```
+
+---
+
+### 🔄 In Your React Example
+
+You're using:
+
+```jsx
+<form onSubmit={handleSubmit(onSubmit)}>
+```
+
+* `onSubmit` is your **custom function name**.
+* `onSubmit` (as an attribute) is just a **prop name** expected by React.
+* It’s fine to reuse the same name — **they’re in different places** and **not reserved**.
+
+---
+
