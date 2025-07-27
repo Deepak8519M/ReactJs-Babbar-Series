@@ -9,9 +9,10 @@ const App = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("Submitting the Form", data);
-  };
+  async function onSubmit(data) {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+    console.log("submiting the form", data);
+  }
 
   return (
     <div>
