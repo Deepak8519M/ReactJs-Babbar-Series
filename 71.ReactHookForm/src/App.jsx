@@ -25,8 +25,11 @@ const App = () => {
               maxLength: 20,
               minLength: { value: 3, message: "Min Length Less than 3" },
             })}
+            className={errors.firstName ? "input-error" : ""}
           />
-          {errors.firstName && <p>{errors.firstName.message}</p>}
+          {errors.firstName && (
+            <p className="err-msg">{errors.firstName.message}</p>
+          )}
         </div>
         <br />
         <div>
@@ -43,8 +46,17 @@ const App = () => {
         </div>
         <br />
         <div>
-          <label>Middle Name</label>
-          <input type="text" {...register("lastName")} />
+          <label>Last Name</label>
+          <input
+            type="text"
+            {...register("lastName", {
+              pattern: {
+                value: /^[A-Za-z]+$/i,
+                message: "Last Name is not per the rules",
+              },
+            })}
+          />
+          {errors.lastName && <p>{errors.lastName.message}</p>}
         </div>
 
         <br />
