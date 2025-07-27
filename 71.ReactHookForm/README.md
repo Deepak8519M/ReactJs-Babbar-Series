@@ -1348,3 +1348,677 @@ required: { value: true, message: "First name is required" }
 
 ---
 
+Yes, you're absolutely right ✅ — **the error still exists** in the `errors` object **even if you don't provide a `message`**.
+
+---
+
+### 🔍 Breakdown:
+
+Let’s say you write:
+
+```jsx
+<input
+  {...register("firstName", {
+    required: true, // no message here
+    minLength: 3,   // also no message
+  })}
+/>
+```
+
+And someone types just 1 letter.
+
+Now `errors.firstName` will look like this:
+
+```js
+{
+  type: "minLength",
+  ref: HTMLInputElement,
+  // ⚠️ no message property
+}
+```
+
+So:
+
+* ✅ `errors.firstName` ➝ **exists**
+* ❌ `errors.firstName.message` ➝ **undefined**
+
+---
+
+### 🔎 What can you do?
+
+You can still detect and show something based on the `type`:
+
+```jsx
+{errors.firstName && errors.firstName.type === "required" && (
+  <p>First name is required</p>
+)}
+
+{errors.firstName && errors.firstName.type === "minLength" && (
+  <p>Minimum 3 characters required</p>
+)}
+```
+
+Or give a fallback:
+
+```jsx
+{errors.firstName && (
+  <p>{errors.firstName.message || "Something is wrong with First Name"}</p>
+)}
+```
+
+---
+
+### ✅ Summary:
+
+* ✅ `errors.firstName` still exists even without `message`.
+* ❌ But `errors.firstName.message` is `undefined`.
+* 🧠 You can show fallback messages using `type` or default messages.
+
+---
+\
+Great! Let's break down this `onSubmit` function step by step:
+
+---
+
+### 🧠 **Code:**
+
+```js
+async function onSubmit(data) {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+    console.log("submiting the form", data);
+}
+```
+
+---
+
+### 🔍 What it does:
+
+#### ✅ `async function onSubmit(data)`
+
+* This function will be used to handle form submissions.
+* It's marked as `async`, meaning it can use `await` and will return a promise.
+* `data` is the form data collected by React Hook Form.
+
+---
+
+#### ⏱️ `await new Promise((resolve) => setTimeout(resolve, 5000));`
+
+This line is creating a **delay of 5 seconds** before continuing the rest of the function.
+
+Let’s simplify it:
+
+```js
+await new Promise((resolve) => {
+  setTimeout(resolve, 5000); // waits for 5 seconds
+});
+```
+
+* `setTimeout(resolve, 5000)` means: wait for 5 seconds, then call `resolve()`.
+* `await` pauses the execution of the function until the promise resolves.
+* So the next line runs **after** 5 seconds.
+
+🕐 It's a common trick to simulate a network delay like waiting for an API or server response.
+
+---
+
+#### 📦 `console.log("submiting the form", data);`
+
+* After the 5-second wait, this logs the message along with the form data.
+
+---
+
+### 📦 Example:
+
+If you submitted this form:
+
+```js
+{ firstName: "Deepak", middleName: "Mallareddy" }
+```
+
+Then after **5 seconds**, you’d see in console:
+
+```bash
+submiting the form { firstName: "Deepak", middleName: "Mallareddy" }
+```
+
+---
+
+### ✅ Summary:
+
+| Part                     | Purpose                                     |
+| ------------------------ | ------------------------------------------- |
+| `async function`         | Allows use of `await` for asynchronous code |
+| `await new Promise(...)` | Creates a 5-second delay                    |
+| `console.log(...)`       | Logs form data after the delay              |
+
+---
+
+Absolutely! Let’s break it all down clearly:
+
+---
+
+## ✅ What is a **Promise** in JavaScript?
+
+### 🔗 A **Promise** is an object that represents the **eventual completion (or failure)** of an asynchronous operation.
+
+It can be in one of **three states**:
+
+| State       | Meaning                              |
+| ----------- | ------------------------------------ |
+| `pending`   | The operation is still happening     |
+| `fulfilled` | The operation completed successfully |
+| `rejected`  | The operation failed with an error   |
+
+---
+
+## 🧠 Syntax of a Promise
+
+```js
+const promise = new Promise((resolve, reject) => {
+  // Do something asynchronous
+  if (success) {
+    resolve(result);  // success case
+  } else {
+    reject(error);    // failure case
+  }
+});
+```
+
+* `resolve()` → tells the promise it succeeded.
+* `reject()` → tells the promise it failed.
+
+---
+
+## 🎯 Your example:
+
+```js
+await new Promise((resolve) => setTimeout(resolve, 5000));
+```
+
+Let's break this into steps:
+
+### 🔹 Step 1: `new Promise(...)`
+
+Creates a new Promise.
+
+### 🔹 Step 2: `(resolve) => setTimeout(resolve, 5000)`
+
+* After 5 seconds, the `resolve()` function is called.
+* This moves the Promise from `pending` to `fulfilled`.
+
+### 🔹 Step 3: `await`
+
+The `await` pauses the execution of the surrounding `async` function until the Promise is **fulfilled**.
+
+---
+
+## ⚙️ Timeline Illustration
+
+```js
+console.log("Start");
+
+await new Promise((resolve) => setTimeout(resolve, 5000));
+
+console.log("End");
+```
+
+This would output:
+
+```
+Start
+... (waits 5 seconds)
+End
+```
+
+---
+
+## ✅ Real World Analogy:
+
+Think of a **Promise** like ordering food at a restaurant.
+
+* You place the order → `Promise is created (pending)`
+* After waiting some time → `Promise is resolved`
+* You get your food and continue eating → `await` lets you wait for the food before moving on
+
+---
+
+## ✅ Why use a Promise here?
+
+Because `setTimeout` is **asynchronous**, you can't just `wait` in a normal function. Using a **Promise + await** gives you that "pause" effect **synchronously inside an `async` function**.
+
+---
+
+### 🧪 If we removed `await`:
+
+```js
+new Promise((resolve) => setTimeout(resolve, 5000));
+console.log("Done");
+```
+
+Output would be **immediate**:
+
+```
+Done
+```
+
+But with `await`:
+
+```js
+await new Promise((resolve) => setTimeout(resolve, 5000));
+console.log("Done");
+```
+
+Output is delayed by 5 seconds.
+
+---
+
+Great follow-up question!
+
+You're asking:
+**Why do we pass `resolve` (or `reject`) as a parameter inside the `Promise` function? Why is it written like this?**
+
+Here’s a clear breakdown:
+
+---
+
+## ✅ The Syntax Behind `new Promise((resolve, reject) => { ... })`
+
+### 1️⃣ `new Promise()`
+
+When you create a Promise, it expects a **function** as its argument (called the **executor function**).
+
+```js
+new Promise((resolve, reject) => {
+  // async logic here
+});
+```
+
+The JavaScript engine **automatically provides** two functions:
+
+* `resolve`: call this when the task is successful ✅
+* `reject`: call this when the task fails ❌
+
+---
+
+### 💡 Why do we *define a function* with `resolve` and `reject`?
+
+Because **we** (the developer) control *when* the Promise is considered finished.
+
+Think of this as:
+
+```js
+function customExecutor(resolve, reject) {
+   // I will call resolve() or reject() based on my condition
+}
+```
+
+So:
+
+```js
+new Promise((resolve, reject) => {
+  // some work
+  resolve(); // call this when done
+});
+```
+
+We're not declaring `resolve` or `reject` ourselves — **JavaScript provides them** when the Promise starts.
+
+---
+
+## ✅ Example: Timer with `resolve`
+
+```js
+const promise = new Promise((resolve) => {
+  setTimeout(() => {
+    resolve("Done waiting!");  // Tell the promise it succeeded
+  }, 2000);
+});
+
+promise.then((msg) => console.log(msg));
+```
+
+This will log after 2 seconds:
+
+```
+Done waiting!
+```
+
+Because we **manually called `resolve()`** after the timeout.
+
+---
+
+## ✅ Summary
+
+| Concept             | Explanation                                                                     |
+| ------------------- | ------------------------------------------------------------------------------- |
+| `resolve`, `reject` | Functions automatically passed into your Promise function.                      |
+| Why needed?         | You control *when* the Promise is considered successful or failed.              |
+| What happens?       | When you call `resolve(...)`, the Promise changes from `pending` → `fulfilled`. |
+
+---
+Ah got it! You're asking specifically about **this line**:
+
+```js
+await new Promise((resolve) => setTimeout(resolve, 5000));
+```
+
+You were confused about:
+
+> Why do we write just `(resolve) => setTimeout(resolve, 5000)`
+> instead of
+> `(resolve) => resolve()` directly?
+
+---
+
+### ✅ Here's the breakdown:
+
+This line:
+
+```js
+await new Promise((resolve) => setTimeout(resolve, 5000));
+```
+
+means:
+⏳ "Wait for 5 seconds before continuing."
+
+Let’s simplify:
+
+---
+
+## 🔍 Step-by-step meaning
+
+```js
+new Promise((resolve) => {
+  setTimeout(resolve, 5000);
+});
+```
+
+You're saying:
+
+* “Start a timer of 5 seconds”
+* When that timer finishes, call `resolve()`
+* Which **completes the promise** after 5 seconds
+
+Then with `await`:
+
+```js
+await new Promise(...);
+```
+
+You’re telling JavaScript:
+
+> “Pause here until the promise is resolved — which will happen after 5 seconds.”
+
+---
+
+## ❓ Now, your question:
+
+> Why not just `(resolve) => resolve()`?
+
+Because that would resolve the promise **immediately** — not after 5 seconds.
+
+```js
+new Promise((resolve) => resolve()); // resolves instantly
+```
+
+But this:
+
+```js
+new Promise((resolve) => setTimeout(resolve, 5000));
+```
+
+delays the `resolve()` call using `setTimeout`, which causes the promise to resolve **after 5 seconds**.
+
+---
+
+### 🔁 Analogy:
+
+* `resolve()` = “Task finished!”
+* `setTimeout(resolve, 5000)` = “Finish the task after 5 seconds.”
+
+So the code:
+
+```js
+await new Promise((resolve) => setTimeout(resolve, 5000));
+```
+
+is basically:
+
+> "Pause this function for 5 seconds before moving to the next step."
+
+---
+
+Ah got it! You're asking specifically about **this line**:
+
+```js
+await new Promise((resolve) => setTimeout(resolve, 5000));
+```
+
+You were confused about:
+
+> Why do we write just `(resolve) => setTimeout(resolve, 5000)`
+> instead of
+> `(resolve) => resolve()` directly?
+
+---
+
+### ✅ Here's the breakdown:
+
+This line:
+
+```js
+await new Promise((resolve) => setTimeout(resolve, 5000));
+```
+
+means:
+⏳ "Wait for 5 seconds before continuing."
+
+Let’s simplify:
+
+---
+
+## 🔍 Step-by-step meaning
+
+```js
+new Promise((resolve) => {
+  setTimeout(resolve, 5000);
+});
+```
+
+You're saying:
+
+* “Start a timer of 5 seconds”
+* When that timer finishes, call `resolve()`
+* Which **completes the promise** after 5 seconds
+
+Then with `await`:
+
+```js
+await new Promise(...);
+```
+
+You’re telling JavaScript:
+
+> “Pause here until the promise is resolved — which will happen after 5 seconds.”
+
+---
+
+## ❓ Now, your question:
+
+> Why not just `(resolve) => resolve()`?
+
+Because that would resolve the promise **immediately** — not after 5 seconds.
+
+```js
+new Promise((resolve) => resolve()); // resolves instantly
+```
+
+But this:
+
+```js
+new Promise((resolve) => setTimeout(resolve, 5000));
+```
+
+delays the `resolve()` call using `setTimeout`, which causes the promise to resolve **after 5 seconds**.
+
+---
+
+### 🔁 Analogy:
+
+* `resolve()` = “Task finished!”
+* `setTimeout(resolve, 5000)` = “Finish the task after 5 seconds.”
+
+So the code:
+
+```js
+await new Promise((resolve) => setTimeout(resolve, 5000));
+```
+
+is basically:
+
+> "Pause this function for 5 seconds before moving to the next step."
+
+---
+
+Great question! You're asking:
+
+> **Can we run the `resolve` function without writing `resolve()` like this — just using `resolve`?**
+
+---
+
+### ✅ Short Answer:
+
+No — **you must call it as a function**:
+
+```js
+resolve(); // ✅ correct
+```
+
+Writing just `resolve` like this:
+
+```js
+resolve; // ❌ does nothing
+```
+
+means you're **referring** to the function, **not calling it**.
+
+---
+
+### ⚠️ Difference Between `resolve` and `resolve()`:
+
+| Syntax      | Meaning                            | Result           |
+| ----------- | ---------------------------------- | ---------------- |
+| `resolve`   | Just refers to the function        | Does **nothing** |
+| `resolve()` | **Calls** the function immediately | ✅ Works          |
+
+---
+
+### 🧠 Analogy (Real-World):
+
+Think of `resolve` like a **remote control**.
+You **have** it in your hand, but unless you **press the button** (`resolve()`), nothing will happen.
+
+```js
+// Just holding the remote
+resolve;
+
+// Pressing the button to start the action
+resolve(); // ✅ this is what resolves the promise
+```
+
+---
+
+### 🧪 Example to See the Difference:
+
+```js
+const promise = new Promise((resolve, reject) => {
+  console.log("Here is the resolve:", resolve);  // just refers to the function
+  resolve;     // ❌ does nothing
+  resolve();   // ✅ this actually resolves the promise
+});
+```
+
+---
+
+### Conclusion:
+
+You **must write `resolve()`** to trigger the success of the promise.
+Just writing `resolve` means you're holding the function, but not activating it.
+
+---
+
+You're absolutely right to call that out — and I see where the confusion is coming from. Let's break it down **clearly** and with respect.
+
+---
+
+### 🔁 The Line You Saw:
+
+```js
+setTimeout(resolve, 5000);
+```
+
+Looks like:
+
+> “Wait 5 seconds, then run `resolve`”
+
+And you're wondering:
+
+> "**Why didn't we write `resolve()` there? Aren't we supposed to call it?**"
+
+---
+
+### ✅ Here's Why It's Correct **without** the parentheses:
+
+```js
+setTimeout(resolve, 5000);
+```
+
+This is actually **correct**, and here's why:
+
+#### ⚙️ `setTimeout` expects a **function as an argument**:
+
+You're not calling `resolve` immediately. You're telling `setTimeout`:
+
+> "After 5 seconds, **call** this function."
+
+So when you pass:
+
+```js
+setTimeout(resolve, 5000);
+```
+
+You're **passing the function `resolve` itself**, and `setTimeout` will **call it for you** after 5 seconds.
+
+---
+
+### ❗ If you did this instead:
+
+```js
+setTimeout(resolve(), 5000);
+```
+
+That would **immediately** call `resolve()` and pass the result (which is `undefined`) to `setTimeout`, which is not what we want.
+
+---
+
+### 🧠 Summary:
+
+| Syntax                        | Meaning                                                 |
+| ----------------------------- | ------------------------------------------------------- |
+| `setTimeout(resolve, 5000)`   | ✅ Correct — tells setTimeout to call `resolve` after 5s |
+| `setTimeout(resolve(), 5000)` | ❌ Wrong — calls `resolve` **immediately**, not after 5s |
+
+---
+
+### 🔓 Final Analogy:
+
+Imagine you schedule a reminder:
+
+> “⏰ After 5 minutes, **call my friend**.”
+> You don’t call them now — you **give the phone number** to the reminder app, and it calls them after 5 minutes.
+
+That's what we’re doing with `resolve` here.
+
+---
+
+
