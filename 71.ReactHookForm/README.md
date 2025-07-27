@@ -559,3 +559,436 @@ function MyForm() {
 ---
 
 
+Yes, you're absolutely right — and let's clarify it step by step 🔍:
+
+---
+
+## ✅ Why do we write `{...register("name")}` inside the input tag?
+
+Because:
+
+### 1️⃣ `register("name")` returns an **object** like:
+
+```js
+{
+  name: "name",
+  onChange: ...,
+  onBlur: ...,
+  ref: ...
+}
+```
+
+---
+
+### 2️⃣ We need to **spread** this object’s properties into the `<input>` element.
+
+So we use the **spread syntax**:
+
+```jsx
+<input {...register("name")} />
+```
+
+* The `...` is the **spread operator**
+* The `{}` is how we **embed JavaScript** in JSX
+
+---
+
+## 🔍 JSX needs `{}` to write JavaScript
+
+In JSX (React HTML), you **must** put JavaScript inside `{}`:
+
+```jsx
+<input value={"Deepak"} />    ✅ Correct
+<input value="Deepak" />      ✅ Also fine (just plain string)
+<input value={getName()} />   ✅ Correct
+```
+
+So:
+
+### ✅ When you write:
+
+```jsx
+<input {...register("name")} />
+```
+
+It means:
+
+* `register("name")` returns an object
+* `...register("name")` spreads its keys as attributes
+* `{ ...register("name") }` is putting that **spread object inside JSX**
+
+> So yes — you're spreading inside **curly braces** (`{}`) **because it's JavaScript expression**.
+
+---
+
+### 🔁 Final Analogy:
+
+It’s just like saying:
+
+```jsx
+const props = { name: "Deepak", age: 22 };
+<Component {...props} />
+```
+
+Same concept is applied in:
+
+```jsx
+<input {...register("name")} />
+```
+
+---
+
+Yes, exactly! ✅
+
+### 🧠 The `register("fieldName")` **registers** and tracks the input field's data for React Hook Form.
+
+Let me break it down in a simple way:
+
+---
+
+## ✅ What `register("name")` really does:
+
+When you write:
+
+```jsx
+<input {...register("name")} />
+```
+
+You're telling React Hook Form:
+
+> “Hey, I have an input field named `name`. Please **track it** for changes, validation, and final submission.”
+
+---
+
+### 🔍 What happens internally:
+
+The `register("name")` function gives back an object like:
+
+```js
+{
+  name: "name",             // sets name attribute
+  onChange: ...,            // tracks value change
+  onBlur: ...,              // handles validation when user leaves field
+  ref: ...                  // sets up DOM reference
+}
+```
+
+And when you do:
+
+```jsx
+<input {...register("name")} />
+```
+
+✅ That input is now:
+
+* Connected to the form state
+* Tracked automatically
+* Will be included when you call `handleSubmit()`
+
+---
+
+### 🧾 Example:
+
+```jsx
+const { register, handleSubmit } = useForm();
+
+const onSubmit = (data) => {
+  console.log(data); // 👉 { name: "Deepak" } if that was typed
+};
+
+<form onSubmit={handleSubmit(onSubmit)}>
+  <input {...register("name")} />
+  <button type="submit">Submit</button>
+</form>
+```
+
+Here:
+
+* `register("name")` tracks the input
+* When submitted, it collects value into `data.name`
+
+---
+
+## 🟡 So yes:
+
+> `register("name")` is directly tied to **that specific input field** — and gives React Hook Form the **info, control, and value** of it.
+
+---
+
+Great question! Let's **fully break down** that validation block — from how the validation works, to how the errors are stored, and **why `message` is used**, not something like `msg`.
+
+---
+
+## 🔍 Input Field with Validation:
+
+```jsx
+<input
+  type="text"
+  {...register("middleName", {
+    minLength: { value: 3, message: "Min Length atleast 3" },
+    maxLength: 5,
+    required: true,
+  })}
+/>
+{errors.middleName && <p>{errors.middleName.message}</p>}
+```
+
+---
+
+## ✅ Purpose of This Code
+
+This form input is:
+
+* Named `"middleName"`
+* Has three validation rules:
+
+  * `required` — cannot be empty
+  * `minLength` — must be **at least 3 characters**
+  * `maxLength` — must be **maximum 5 characters**
+* Shows an error **below the field** if validation fails
+
+---
+
+## 🧠 Let's explain each part:
+
+### 1. `register("middleName", { ...rules })`
+
+This:
+
+* Registers the field `middleName`
+* Applies the given validation rules
+
+---
+
+### 2. **Why `minLength: { value: 3, message: "..." }`**?
+
+React Hook Form expects an object here:
+
+```js
+{
+  value: 3,
+  message: "Minimum 3 characters required"
+}
+```
+
+* `value` — is the **actual number to check**
+* `message` — is the **custom error message** shown if validation fails
+
+👉 You **must** use `message` as the key, because **React Hook Form looks for that specific key** to display error text.
+
+---
+
+### 3. **Why not `msg` instead of `message`?**
+
+React Hook Form stores validation errors in a special format like:
+
+```js
+errors = {
+  middleName: {
+    type: "minLength",
+    message: "Min Length atleast 3",
+  },
+}
+```
+
+📌 So if you write `{errors.middleName.msg}`, it won’t work — because **`.msg` doesn’t exist**. Only `.message` is returned by RHF.
+
+---
+
+### 4. **What happens when a user types?**
+
+Here's the **exact validation flow**:
+
+---
+
+### 💡 Full Step-by-Step Flow:
+
+#### ➤ Step 1: User loads form
+
+* `register()` is called
+* `middleName` is tracked
+* Validation rules are attached
+
+#### ➤ Step 2: User types in the field
+
+* React Hook Form listens with `onChange`, `onBlur`, etc.
+
+#### ➤ Step 3: User submits the form
+
+* `handleSubmit()` is triggered
+* RHF checks if `middleName`:
+
+  * Is **present** (because `required`)
+  * Is **at least 3 characters** (`minLength`)
+  * Is **not more than 5 characters** (`maxLength`)
+
+#### ➤ Step 4: Validation Fails?
+
+If any rule fails:
+
+* `errors.middleName` gets filled like:
+
+  ```js
+  errors.middleName = {
+    type: "minLength",
+    message: "Min Length atleast 3"
+  };
+  ```
+* And this line shows it:
+
+  ```jsx
+  {errors.middleName && <p>{errors.middleName.message}</p>}
+  ```
+
+#### ➤ Step 5: Validation Passes?
+
+* `errors.middleName` becomes `undefined`
+* So nothing is shown
+* Form data moves to `onSubmit(data)` callback
+
+---
+
+## ✅ Summary:
+
+| Concept                                   | Meaning                                                     |
+| ----------------------------------------- | ----------------------------------------------------------- |
+| `minLength: { value: 3, message: "..." }` | Validation rule with value and error message                |
+| `message`                                 | Must be used because RHF expects this for displaying errors |
+| `errors.middleName.message`               | Shows the custom error when validation fails                |
+| `...register(...)`                        | Spreads RHF logic into your input field                     |
+| Validation happens                        | When user submits or blurs the field                        |
+
+---
+
+Great observation — let’s break it down and **explain clearly** why the error message shows *immediately* even before submission.
+
+---
+
+### 🔁 **Expected Behavior in `react-hook-form`**
+
+By default, errors in `react-hook-form` **do not show immediately while typing** — they only show **after submission** unless you configure them differently.
+
+But in your case, you’re seeing error messages **as soon as you type**. That’s because of this:
+
+---
+
+### ⚙️ **Why It's Happening: `mode` in `useForm`**
+
+In `react-hook-form`, there's an option called `mode` in the `useForm()` hook:
+
+```js
+const {
+  register,
+  handleSubmit,
+  formState: { errors }
+} = useForm({
+  mode: "onChange" // or "onBlur", or "onSubmit" (default)
+});
+```
+
+#### ✅ Modes You Can Use:
+
+| Mode       | When Validation Runs                    |
+| ---------- | --------------------------------------- |
+| `onSubmit` | (default) Only after form is submitted  |
+| `onBlur`   | When input loses focus                  |
+| `onChange` | On every keystroke (what you’re seeing) |
+| `all`      | On blur + change + submit               |
+
+---
+
+### 🧠 Explanation of This Flow
+
+Let’s walk through your example with validation:
+
+```jsx
+<input
+  type="text"
+  {...register("middleName", {
+    minLength: { value: 3, message: "Min Length atleast 3" },
+    maxLength: { value: 5, message: "Max Length 5" },
+    required: { value: true, message: "This field is required" }
+  })}
+/>
+{errors.middleName && <p>{errors.middleName.message}</p>}
+```
+
+#### ✅ Flow When User Types:
+
+1. You type `"De"` (just 2 letters).
+2. React Hook Form checks:
+
+   * Is it at least 3 letters? ❌ → So it triggers `minLength.message`
+3. The `errors.middleName` is set to this:
+
+   ```js
+   {
+     type: "minLength",
+     message: "Min Length atleast 3"
+   }
+   ```
+4. JSX sees that `errors.middleName` exists → it shows:
+
+   ```jsx
+   <p>Min Length atleast 3</p>
+   ```
+
+---
+
+### 🤔 Why `errors.middleName.message` and not `errors.msg`?
+
+Because:
+
+* `errors` is an object per field (like `middleName`)
+* Inside that, it contains:
+
+  ```js
+  {
+    type: "minLength",
+    message: "Min Length atleast 3"
+  }
+  ```
+* So you access the error *for that field* like:
+
+  ```js
+  errors.middleName.message
+  ```
+
+**You cannot use `errors.msg`** because `msg` is not a real key. The correct structure depends on how React Hook Form builds the `errors` object internally.
+
+---
+
+### 🧪 Bonus Tip: `console.log(errors)`
+
+If you ever want to debug this and see *exactly* what's going on, just do:
+
+```js
+console.log(errors);
+```
+
+You’ll see something like:
+
+```js
+{
+  middleName: {
+    type: "minLength",
+    message: "Min Length atleast 3"
+  }
+}
+```
+
+---
+
+### ✅ Summary
+
+* You’re seeing errors *while typing* because `mode: "onChange"` is likely set.
+* `errors.middleName.message` is correct because the error object stores each field separately.
+* Each validation rule (like `minLength`) is an object with:
+
+  * `value`
+  * `message`
+* Error message is shown only if a rule fails.
+* `register(...)` spreads the field config into the input (hence the curly braces + `...`).
+
+---
+
