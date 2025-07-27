@@ -1243,3 +1243,108 @@ Here's your corrected and polished version:
 
 ---
 
+Your code for the `lastName` input field is almost correct, but the **mistake is actually in the label above it**.
+
+You accidentally wrote:
+
+```jsx
+<label>Middle Name</label>
+<input type="text" {...register("lastName", ...)} />
+```
+
+But that input is for `"lastName"`, not `"middleName"` — so the label should say **"Last Name"**.
+
+---
+
+### ✅ Corrected version:
+
+```jsx
+<div>
+  <label>Last Name</label>
+  <input
+    type="text"
+    {...register("lastName", {
+      pattern: {
+        value: /^[A-Za-z]+$/i,
+        message: "Last Name is not per the rules",
+      },
+    })}
+  />
+  {errors.lastName && <p>{errors.lastName.message}</p>}
+</div>
+```
+
+---
+
+### Additional Notes:
+
+* ✅ The pattern you used: `/[A-Za-z]+$/i` — is mostly fine, but it's **better to anchor it fully**, like `^[A-Za-z]+$`, so it ensures the **entire input** is letters only.
+* ✅ Always include the corresponding `errors.lastName` condition and display message (which you may have forgotten).
+
+---
+
+Great question.
+
+If you **don't provide a `message`** inside the validation rules (like `required`, `minLength`, `pattern`, etc.) in `react-hook-form`, here's **what happens**:
+
+---
+
+### ✅ Case 1: No `message` Provided
+
+Example:
+
+```jsx
+<input
+  {...register("firstName", {
+    required: true,
+    minLength: 3,
+  })}
+/>
+```
+
+If you then do:
+
+```jsx
+{errors.firstName && <p>{errors.firstName.message}</p>}
+```
+
+🛑 `errors.firstName.message` will be `undefined`
+✅ But `errors.firstName` itself **will still exist**, so you can check its presence to know there's an error.
+
+---
+
+### 🔎 Result:
+
+* You’ll **see nothing displayed** because `.message` is `undefined`.
+* The error still **exists in memory**, but no custom text is shown to the user.
+
+---
+
+### ✅ Case 2: You Still Want to Show Something Without Message
+
+You can just check if the error exists:
+
+```jsx
+{errors.firstName && <p>There is an error with First Name</p>}
+```
+
+Or use a fallback:
+
+```jsx
+{errors.firstName && (
+  <p>{errors.firstName.message || "Invalid input for First Name"}</p>
+)}
+```
+
+---
+
+### ✅ Best Practice:
+
+Always include `message` if you plan to show feedback to the user:
+
+```jsx
+required: { value: true, message: "First name is required" }
+```
+
+---
+
