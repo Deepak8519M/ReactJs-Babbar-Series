@@ -20,13 +20,20 @@ const App = () => {
           <label>First Name</label>
           <input
             type="text"
-            {...register("firstName", { required: true, maxLength: 20 })}
+            {...register("firstName", {
+              required: true,
+              maxLength: 20,
+              minLength: 3,
+            })}
           />
         </div>
         <br />
         <div>
           <label>Middle Name</label>
-          <input type="text" {...register("middleName")} />
+          <input
+            type="text"
+            {...register("middleName", { minLength: 3, maxLength: 5 })}
+          />
         </div>
         <br />
         <div>
